@@ -1,7 +1,5 @@
 package problem
 
-type Metadata map[string]string
-
 type Problem struct {
 	text       string
 	isCritical bool
