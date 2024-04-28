@@ -7,17 +7,21 @@ type Problem struct {
 }
 
 func New(text string, fields ...Field) error {
-	return Problem{text: text, metadata: Fields(fields...).metadata()}
+	return Problem{text: text, metadata: Fields(fields).metadata()}
 }
 
 func NewCritical(text string, fields ...Field) error {
-	return Problem{text: text, isCritical: true, metadata: Fields(fields...).metadata()}
+	return Problem{text: text, isCritical: true, metadata: Fields(fields).metadata()}
 }
 
-func (e Problem) Error() string {
-	return e.text
+func (p Problem) Error() string {
+	return p.text
 }
 
-func (e Problem) IsCritical() bool {
-	return e.isCritical
+func (p Problem) IsCritical() bool {
+	return p.isCritical
+}
+
+func (p Problem) Metadata() Metadata {
+	return p.metadata
 }
