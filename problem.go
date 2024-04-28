@@ -1,4 +1,4 @@
-package problem
+package clerk
 
 type Problem struct {
 	Error    string   `json:"error"`
