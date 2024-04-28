@@ -1,5 +1,5 @@
-github.com/ValGoldun/logger v0.0.0-20240428153750-dcc460f57a0c h1:V4xWhzOmikToxPwYbxqQaiEf+RGnGUwQnlmjz0UCQDI=
-github.com/ValGoldun/logger v0.0.0-20240428153750-dcc460f57a0c/go.mod h1:I/0K0qvvCV9OgWi0FSV08czvyr8jEyOPzepnEt1/KTc=
+github.com/ValGoldun/logger v1.0.0 h1:luBH2oBJUs4M3XGGKHchh/EW1XsPl56LYILTZ9xSGC8=
+github.com/ValGoldun/logger v1.0.0/go.mod h1:jP5Lc59npwDLrWrW+nCaCtLAOl1M+omaN155FgGbUHY=
 github.com/bytedance/sonic v1.5.0/go.mod h1:ED5hyg4y6t3/9Ku1R6dU/4KyJ48DZ4jPhfY1O2AihPM=
 github.com/bytedance/sonic v1.9.1 h1:6iJ6NqdoxCDr6mbY8h18oSO+cShGSMRGCEo7F2h0x8s=
 github.com/bytedance/sonic v1.9.1/go.mod h1:i736AoUSYt75HyZLoJW9ERYxcy6eaN6h4BZXU064P/U=
