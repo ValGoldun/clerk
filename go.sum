@@ -1,3 +1,5 @@
+github.com/ValGoldun/business-errors v1.0.0 h1:A0a7+bPtHPN0lwEoqhdJVRfeO0WA+CAKnFaG3vHrYPk=
+github.com/ValGoldun/business-errors v1.0.0/go.mod h1:WeQx5LkHNdLMSZ3/cpNZNuePMSgzeSgCL89VsTDpSV0=
 github.com/ValGoldun/logger v1.0.0 h1:luBH2oBJUs4M3XGGKHchh/EW1XsPl56LYILTZ9xSGC8=
 github.com/ValGoldun/logger v1.0.0/go.mod h1:jP5Lc59npwDLrWrW+nCaCtLAOl1M+omaN155FgGbUHY=
 github.com/bytedance/sonic v1.5.0/go.mod h1:ED5hyg4y6t3/9Ku1R6dU/4KyJ48DZ4jPhfY1O2AihPM=

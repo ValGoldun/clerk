@@ -3,6 +3,7 @@ package clerk
 import (
 	"encoding/json"
 	"errors"
+	business_errors "github.com/ValGoldun/business-errors"
 	"github.com/ValGoldun/logger"
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator"
@@ -26,6 +27,12 @@ func (c Clerk) Problem(ctx *gin.Context, err error, metadata Metadata) {
 	}
 
 	switch e := err.(type) {
+	case business_errors.Error:
+		if e.IsCritical {
+			c.serverProblem(ctx, errors.New("internal error"), metadata)
+			return
+		}
+		c.clientProblem(ctx, errors.New(e.Text), metadata)
 	case *json.UnmarshalTypeError:
 		c.clientProblem(ctx, errors.New("invalid json type"), metadata)
 		return
