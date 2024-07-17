@@ -6,7 +6,7 @@ import (
 	business_errors "github.com/ValGoldun/business-errors"
 	"github.com/ValGoldun/logger"
 	"github.com/gin-gonic/gin"
-	"github.com/go-playground/validator"
+	"github.com/go-playground/validator/v10"
 	"io"
 	"net/http"
 )
