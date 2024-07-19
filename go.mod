@@ -3,7 +3,7 @@ module github.com/ValGoldun/clerk
 go 1.22.2
 
 require (
-	github.com/ValGoldun/business-errors v1.0.0
+	github.com/ValGoldun/business-errors v1.0.1
 	github.com/ValGoldun/logger v1.0.0
 	github.com/gin-gonic/gin v1.10.0
 	github.com/go-playground/validator/v10 v10.22.0

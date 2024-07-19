@@ -4,24 +4,13 @@ import (
 	"encoding/json"
 	"errors"
 	business_errors "github.com/ValGoldun/business-errors"
-	"github.com/ValGoldun/logger"
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
 	"io"
 	"net/http"
 )
 
-type Clerk struct {
-	logger logger.Logger
-}
-
-func New(logger logger.Logger) Clerk {
-	return Clerk{
-		logger: logger,
-	}
-}
-
-func (c Clerk) Problem(ctx *gin.Context, err error, metadata Metadata) {
+func WriteProblem(ctx *gin.Context, err error) {
 	if err == nil {
 		return
 	}
@@ -29,46 +18,40 @@ func (c Clerk) Problem(ctx *gin.Context, err error, metadata Metadata) {
 	switch e := err.(type) {
 	case business_errors.Error:
 		if e.IsCritical {
-			c.serverProblem(ctx, errors.New("internal error"), metadata)
+			serverProblem(ctx, errors.New("internal error"), e.Metadata)
 			return
 		}
-		c.clientProblem(ctx, errors.New(e.Text), metadata)
+		clientProblem(ctx, errors.New(e.Text), e.Metadata)
 	case *json.UnmarshalTypeError:
-		c.clientProblem(ctx, errors.New("invalid json type"), metadata)
+		clientProblem(ctx, errors.New("invalid json type"), nil)
 		return
 	case *json.SyntaxError:
-		c.clientProblem(ctx, errors.New("invalid json"), metadata)
+		clientProblem(ctx, errors.New("invalid json"), nil)
 		return
 	case validator.ValidationErrors:
 		var fields []Field
 		for _, field := range e {
 			fields = append(fields, Field{Key: field.Field(), Error: field.Tag()})
 		}
-		c.clientProblemWithFields(ctx, errors.New("validation error"), fields, metadata)
+		clientProblemWithFields(ctx, errors.New("validation error"), fields)
 		return
 	default:
 		if errors.Is(err, io.EOF) {
-			c.clientProblem(ctx, errors.New("empty body"), metadata)
+			clientProblem(ctx, errors.New("empty body"), nil)
 			return
 		}
-		c.serverProblem(ctx, err, metadata)
+		serverProblem(ctx, err, nil)
 		return
 	}
 }
-func (c Clerk) serverProblem(ctx *gin.Context, err error, metadata Metadata) {
-	c.logger.Error(err.Error(), metadata.LoggerFields()...)
-
+func serverProblem(ctx *gin.Context, err error, metadata business_errors.Metadata) {
 	ctx.AbortWithStatusJSON(http.StatusInternalServerError, Problem{Error: "server problem", Metadata: metadata})
 }
 
-func (c Clerk) clientProblem(ctx *gin.Context, err error, metadata Metadata) {
-	c.logger.Warn(err.Error(), metadata.LoggerFields()...)
-
+func clientProblem(ctx *gin.Context, err error, metadata business_errors.Metadata) {
 	ctx.AbortWithStatusJSON(http.StatusBadRequest, Problem{Error: err.Error(), Metadata: metadata})
 }
 
-func (c Clerk) clientProblemWithFields(ctx *gin.Context, err error, fields []Field, metadata Metadata) {
-	c.logger.Warn(err.Error(), metadata.LoggerFields()...)
-
-	ctx.AbortWithStatusJSON(http.StatusBadRequest, Problem{Error: err.Error(), Fields: fields, Metadata: metadata})
+func clientProblemWithFields(ctx *gin.Context, err error, fields []Field) {
+	ctx.AbortWithStatusJSON(http.StatusBadRequest, Problem{Error: err.Error(), Fields: fields})
 }
